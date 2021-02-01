@@ -1,8 +1,3 @@
-# Private files
-local.dart
-apollo.config.js
-schema.json
-
 # Miscellaneous
 *.class
 *.log
@@ -35,8 +30,6 @@ schema.json
 .pub-cache/
 .pub/
 /build/
-*.g.dart
-
 
 # Web related
 lib/generated_plugin_registrant.dart
