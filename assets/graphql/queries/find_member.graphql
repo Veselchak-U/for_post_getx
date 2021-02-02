@@ -1,0 +1,12 @@
+query FindMember(
+    $email: String!,
+    $phone: String!
+) {
+    member(where: {
+        email: {_eq: $email},
+        _and: {phone: {_eq: $phone}}
+    }
+    ) {
+        ...MemberFields
+    }
+}

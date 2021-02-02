@@ -1,0 +1,15 @@
+mutation CreateArticle(
+    $member_id: uuid!,
+    $title: String!,
+    $description: String!,
+    $banner_url: String!,
+) {
+    insert_article_one(object: {
+        member_id: $member_id,
+        title: $title,
+        description: $description,
+        banner_url: $banner_url,
+    }) {
+        ...ArticleFields
+    }
+}

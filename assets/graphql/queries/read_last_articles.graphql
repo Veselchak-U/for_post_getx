@@ -1,0 +1,5 @@
+query ReadLastArticles {
+    article(order_by: {updated_at: desc}, limit: 10) {
+        ...ArticleFields
+    }
+}

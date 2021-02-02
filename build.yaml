@@ -1,0 +1,95 @@
+targets:
+  $default:
+    sources:
+      - $package$
+      - lib/**
+      - assets/graphql/**
+      - schema.graphql
+
+    builders:
+      json_serializable:
+        generate_for:
+          #- lib/cubits/*.dart
+          #- lib/models/*.dart
+          - lib/graphql/*.dart
+        options:
+          any_map: false
+          checked: false
+          create_factory: true
+          create_to_json: true
+          disallow_unrecognized_keys: false
+          explicit_to_json: true # changed
+          field_rename: snake # changed
+          ignore_unannotated: false
+          include_if_null: true
+          nullable: false # changed
+
+      artemis:
+        options:
+          fragments_glob: assets/graphql/fragments.graphql
+          schema_mapping:
+            - output: lib/graphql/api.graphql.dart
+              schema: schema.graphql
+              queries_glob: assets/graphql/**/*.graphql
+              naming_scheme: pathedWithFields
+
+          scalar_mapping:
+            - graphql_type: timestamptz
+              dart_type: DateTime
+
+            - graphql_type: timestamp
+              dart_type: DateTime
+
+            - graphql_type: time
+              dart_type: DateTime
+
+            # - graphql_type: open_range
+            #   dart_type: DateTime
+
+            # - graphql_type: tstzrange
+            #   dart_type: String
+
+            - graphql_type: uuid
+              dart_type: String
+
+            - graphql_type: integer
+              dart_type: int
+
+            - graphql_type: date
+              dart_type: DateTime
+
+            - graphql_type: numeric
+              dart_type: double
+
+            # - graphql_type: float8
+            #   dart_type: double
+
+            - graphql_type: geometry
+              dart_type: Map
+
+            - graphql_type: geography
+              dart_type: Map
+
+            - graphql_type: _bool
+              dart_type: bool
+
+            - graphql_type: _float8
+              dart_type: double
+
+            - graphql_type: float8
+              dart_type: double
+
+            - graphql_type: _text
+              dart_type: String
+
+            - graphql_type: name
+              dart_type: String
+
+            - graphql_type: jsonb
+              dart_type: Map
+
+            # - graphql_type: bigint
+            #   dart_type: int
+
+            - graphql_type: citext
+              dart_type: String

@@ -1,0 +1,905 @@
+schema {
+  query: query_root
+  mutation: mutation_root
+  subscription: subscription_root
+}
+
+"""
+Direct the client to resolve this field locally, either from the cache or local resolvers.
+"""
+directive @client(
+  """
+  When true, the client will never use the cache for this value. See
+  https://www.apollographql.com/docs/react/essentials/local-state/#forcing-resolvers-with-clientalways-true
+  """
+  always: Boolean
+) on FIELD | FRAGMENT_DEFINITION | INLINE_FRAGMENT
+
+"""
+Export this locally resolved field as a variable to be used in the remainder of this query. See
+https://www.apollographql.com/docs/react/essentials/local-state/#using-client-fields-as-variables
+"""
+directive @export(
+  """The variable name to export this field as."""
+  as: String!
+) on FIELD
+
+"""
+Specify a custom store key for this result. See
+https://www.apollographql.com/docs/react/advanced/caching/#the-connection-directive
+"""
+directive @connection(
+  """Specify the store key."""
+  key: String!
+
+  """
+  An array of query argument names to include in the generated custom store key.
+  """
+  filter: [String!]
+) on FIELD
+
+"""
+expression to compare columns of type String. All fields are combined with logical 'AND'.
+"""
+input String_comparison_exp {
+  _eq: String
+  _gt: String
+  _gte: String
+  _ilike: String
+  _in: [String!]
+  _is_null: Boolean
+  _like: String
+  _lt: String
+  _lte: String
+  _neq: String
+  _nilike: String
+  _nin: [String!]
+  _nlike: String
+  _nsimilar: String
+  _similar: String
+}
+
+"""
+columns and relationships of "article"
+"""
+type article {
+  banner_url: String!
+  created_at: timestamptz!
+  description: String!
+  id: uuid!
+
+  """An object relationship"""
+  member: member
+  member_id: uuid!
+  title: String!
+  updated_at: timestamptz!
+}
+
+"""
+aggregated selection of "article"
+"""
+type article_aggregate {
+  aggregate: article_aggregate_fields
+  nodes: [article!]!
+}
+
+"""
+aggregate fields of "article"
+"""
+type article_aggregate_fields {
+  count(columns: [article_select_column!], distinct: Boolean): Int
+  max: article_max_fields
+  min: article_min_fields
+}
+
+"""
+order by aggregate values of table "article"
+"""
+input article_aggregate_order_by {
+  count: order_by
+  max: article_max_order_by
+  min: article_min_order_by
+}
+
+"""
+input type for inserting array relation for remote table "article"
+"""
+input article_arr_rel_insert_input {
+  data: [article_insert_input!]!
+  on_conflict: article_on_conflict
+}
+
+"""
+Boolean expression to filter rows from the table "article". All fields are combined with a logical 'AND'.
+"""
+input article_bool_exp {
+  _and: [article_bool_exp]
+  _not: article_bool_exp
+  _or: [article_bool_exp]
+  banner_url: String_comparison_exp
+  created_at: timestamptz_comparison_exp
+  description: String_comparison_exp
+  id: uuid_comparison_exp
+  member: member_bool_exp
+  member_id: uuid_comparison_exp
+  title: String_comparison_exp
+  updated_at: timestamptz_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "article"
+"""
+enum article_constraint {
+  """unique or primary key constraint"""
+  article_pkey
+}
+
+"""
+input type for inserting data into table "article"
+"""
+input article_insert_input {
+  banner_url: String
+  created_at: timestamptz
+  description: String
+  id: uuid
+  member: member_obj_rel_insert_input
+  member_id: uuid
+  title: String
+  updated_at: timestamptz
+}
+
+"""aggregate max on columns"""
+type article_max_fields {
+  banner_url: String
+  created_at: timestamptz
+  description: String
+  id: uuid
+  member_id: uuid
+  title: String
+  updated_at: timestamptz
+}
+
+"""
+order by max() on columns of table "article"
+"""
+input article_max_order_by {
+  banner_url: order_by
+  created_at: order_by
+  description: order_by
+  id: order_by
+  member_id: order_by
+  title: order_by
+  updated_at: order_by
+}
+
+"""aggregate min on columns"""
+type article_min_fields {
+  banner_url: String
+  created_at: timestamptz
+  description: String
+  id: uuid
+  member_id: uuid
+  title: String
+  updated_at: timestamptz
+}
+
+"""
+order by min() on columns of table "article"
+"""
+input article_min_order_by {
+  banner_url: order_by
+  created_at: order_by
+  description: order_by
+  id: order_by
+  member_id: order_by
+  title: order_by
+  updated_at: order_by
+}
+
+"""
+response of any mutation on the table "article"
+"""
+type article_mutation_response {
+  """number of affected rows by the mutation"""
+  affected_rows: Int!
+
+  """data of the affected rows by the mutation"""
+  returning: [article!]!
+}
+
+"""
+input type for inserting object relation for remote table "article"
+"""
+input article_obj_rel_insert_input {
+  data: article_insert_input!
+  on_conflict: article_on_conflict
+}
+
+"""
+on conflict condition type for table "article"
+"""
+input article_on_conflict {
+  constraint: article_constraint!
+  update_columns: [article_update_column!]!
+  where: article_bool_exp
+}
+
+"""
+ordering options when selecting data from "article"
+"""
+input article_order_by {
+  banner_url: order_by
+  created_at: order_by
+  description: order_by
+  id: order_by
+  member: member_order_by
+  member_id: order_by
+  title: order_by
+  updated_at: order_by
+}
+
+"""
+primary key columns input for table: "article"
+"""
+input article_pk_columns_input {
+  id: uuid!
+}
+
+"""
+select columns of table "article"
+"""
+enum article_select_column {
+  """column name"""
+  banner_url
+
+  """column name"""
+  created_at
+
+  """column name"""
+  description
+
+  """column name"""
+  id
+
+  """column name"""
+  member_id
+
+  """column name"""
+  title
+
+  """column name"""
+  updated_at
+}
+
+"""
+input type for updating data in table "article"
+"""
+input article_set_input {
+  banner_url: String
+  created_at: timestamptz
+  description: String
+  id: uuid
+  member_id: uuid
+  title: String
+  updated_at: timestamptz
+}
+
+"""
+update columns of table "article"
+"""
+enum article_update_column {
+  """column name"""
+  banner_url
+
+  """column name"""
+  created_at
+
+  """column name"""
+  description
+
+  """column name"""
+  id
+
+  """column name"""
+  member_id
+
+  """column name"""
+  title
+
+  """column name"""
+  updated_at
+}
+
+"""
+columns and relationships of "member"
+"""
+type member {
+  created_at: timestamptz!
+  display_name: String
+  email: String!
+  id: uuid!
+  phone: String!
+  photo_url: String
+  updated_at: timestamptz!
+}
+
+"""
+aggregated selection of "member"
+"""
+type member_aggregate {
+  aggregate: member_aggregate_fields
+  nodes: [member!]!
+}
+
+"""
+aggregate fields of "member"
+"""
+type member_aggregate_fields {
+  count(columns: [member_select_column!], distinct: Boolean): Int
+  max: member_max_fields
+  min: member_min_fields
+}
+
+"""
+order by aggregate values of table "member"
+"""
+input member_aggregate_order_by {
+  count: order_by
+  max: member_max_order_by
+  min: member_min_order_by
+}
+
+"""
+input type for inserting array relation for remote table "member"
+"""
+input member_arr_rel_insert_input {
+  data: [member_insert_input!]!
+  on_conflict: member_on_conflict
+}
+
+"""
+Boolean expression to filter rows from the table "member". All fields are combined with a logical 'AND'.
+"""
+input member_bool_exp {
+  _and: [member_bool_exp]
+  _not: member_bool_exp
+  _or: [member_bool_exp]
+  created_at: timestamptz_comparison_exp
+  display_name: String_comparison_exp
+  email: String_comparison_exp
+  id: uuid_comparison_exp
+  phone: String_comparison_exp
+  photo_url: String_comparison_exp
+  updated_at: timestamptz_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "member"
+"""
+enum member_constraint {
+  """unique or primary key constraint"""
+  member_email_phone_key
+
+  """unique or primary key constraint"""
+  member_pkey
+}
+
+"""
+input type for inserting data into table "member"
+"""
+input member_insert_input {
+  created_at: timestamptz
+  display_name: String
+  email: String
+  id: uuid
+  phone: String
+  photo_url: String
+  updated_at: timestamptz
+}
+
+"""aggregate max on columns"""
+type member_max_fields {
+  created_at: timestamptz
+  display_name: String
+  email: String
+  id: uuid
+  phone: String
+  photo_url: String
+  updated_at: timestamptz
+}
+
+"""
+order by max() on columns of table "member"
+"""
+input member_max_order_by {
+  created_at: order_by
+  display_name: order_by
+  email: order_by
+  id: order_by
+  phone: order_by
+  photo_url: order_by
+  updated_at: order_by
+}
+
+"""aggregate min on columns"""
+type member_min_fields {
+  created_at: timestamptz
+  display_name: String
+  email: String
+  id: uuid
+  phone: String
+  photo_url: String
+  updated_at: timestamptz
+}
+
+"""
+order by min() on columns of table "member"
+"""
+input member_min_order_by {
+  created_at: order_by
+  display_name: order_by
+  email: order_by
+  id: order_by
+  phone: order_by
+  photo_url: order_by
+  updated_at: order_by
+}
+
+"""
+response of any mutation on the table "member"
+"""
+type member_mutation_response {
+  """number of affected rows by the mutation"""
+  affected_rows: Int!
+
+  """data of the affected rows by the mutation"""
+  returning: [member!]!
+}
+
+"""
+input type for inserting object relation for remote table "member"
+"""
+input member_obj_rel_insert_input {
+  data: member_insert_input!
+  on_conflict: member_on_conflict
+}
+
+"""
+on conflict condition type for table "member"
+"""
+input member_on_conflict {
+  constraint: member_constraint!
+  update_columns: [member_update_column!]!
+  where: member_bool_exp
+}
+
+"""
+ordering options when selecting data from "member"
+"""
+input member_order_by {
+  created_at: order_by
+  display_name: order_by
+  email: order_by
+  id: order_by
+  phone: order_by
+  photo_url: order_by
+  updated_at: order_by
+}
+
+"""
+primary key columns input for table: "member"
+"""
+input member_pk_columns_input {
+  id: uuid!
+}
+
+"""
+select columns of table "member"
+"""
+enum member_select_column {
+  """column name"""
+  created_at
+
+  """column name"""
+  display_name
+
+  """column name"""
+  email
+
+  """column name"""
+  id
+
+  """column name"""
+  phone
+
+  """column name"""
+  photo_url
+
+  """column name"""
+  updated_at
+}
+
+"""
+input type for updating data in table "member"
+"""
+input member_set_input {
+  created_at: timestamptz
+  display_name: String
+  email: String
+  id: uuid
+  phone: String
+  photo_url: String
+  updated_at: timestamptz
+}
+
+"""
+update columns of table "member"
+"""
+enum member_update_column {
+  """column name"""
+  created_at
+
+  """column name"""
+  display_name
+
+  """column name"""
+  email
+
+  """column name"""
+  id
+
+  """column name"""
+  phone
+
+  """column name"""
+  photo_url
+
+  """column name"""
+  updated_at
+}
+
+"""mutation root"""
+type mutation_root {
+  """
+  delete data from the table: "article"
+  """
+  delete_article(
+    """filter the rows which have to be deleted"""
+    where: article_bool_exp!
+  ): article_mutation_response
+
+  """
+  delete single row from the table: "article"
+  """
+  delete_article_by_pk(id: uuid!): article
+
+  """
+  delete data from the table: "member"
+  """
+  delete_member(
+    """filter the rows which have to be deleted"""
+    where: member_bool_exp!
+  ): member_mutation_response
+
+  """
+  delete single row from the table: "member"
+  """
+  delete_member_by_pk(id: uuid!): member
+
+  """
+  insert data into the table: "article"
+  """
+  insert_article(
+    """the rows to be inserted"""
+    objects: [article_insert_input!]!
+
+    """on conflict condition"""
+    on_conflict: article_on_conflict
+  ): article_mutation_response
+
+  """
+  insert a single row into the table: "article"
+  """
+  insert_article_one(
+    """the row to be inserted"""
+    object: article_insert_input!
+
+    """on conflict condition"""
+    on_conflict: article_on_conflict
+  ): article
+
+  """
+  insert data into the table: "member"
+  """
+  insert_member(
+    """the rows to be inserted"""
+    objects: [member_insert_input!]!
+
+    """on conflict condition"""
+    on_conflict: member_on_conflict
+  ): member_mutation_response
+
+  """
+  insert a single row into the table: "member"
+  """
+  insert_member_one(
+    """the row to be inserted"""
+    object: member_insert_input!
+
+    """on conflict condition"""
+    on_conflict: member_on_conflict
+  ): member
+
+  """
+  update data of the table: "article"
+  """
+  update_article(
+    """sets the columns of the filtered rows to the given values"""
+    _set: article_set_input
+
+    """filter the rows which have to be updated"""
+    where: article_bool_exp!
+  ): article_mutation_response
+
+  """
+  update single row of the table: "article"
+  """
+  update_article_by_pk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: article_set_input
+    pk_columns: article_pk_columns_input!
+  ): article
+
+  """
+  update data of the table: "member"
+  """
+  update_member(
+    """sets the columns of the filtered rows to the given values"""
+    _set: member_set_input
+
+    """filter the rows which have to be updated"""
+    where: member_bool_exp!
+  ): member_mutation_response
+
+  """
+  update single row of the table: "member"
+  """
+  update_member_by_pk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: member_set_input
+    pk_columns: member_pk_columns_input!
+  ): member
+}
+
+"""column ordering options"""
+enum order_by {
+  """in the ascending order, nulls last"""
+  asc
+
+  """in the ascending order, nulls first"""
+  asc_nulls_first
+
+  """in the ascending order, nulls last"""
+  asc_nulls_last
+
+  """in the descending order, nulls first"""
+  desc
+
+  """in the descending order, nulls first"""
+  desc_nulls_first
+
+  """in the descending order, nulls last"""
+  desc_nulls_last
+}
+
+"""query root"""
+type query_root {
+  """
+  fetch data from the table: "article"
+  """
+  article(
+    """distinct select on columns"""
+    distinct_on: [article_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [article_order_by!]
+
+    """filter the rows returned"""
+    where: article_bool_exp
+  ): [article!]!
+
+  """
+  fetch aggregated fields from the table: "article"
+  """
+  article_aggregate(
+    """distinct select on columns"""
+    distinct_on: [article_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [article_order_by!]
+
+    """filter the rows returned"""
+    where: article_bool_exp
+  ): article_aggregate!
+
+  """fetch data from the table: "article" using primary key columns"""
+  article_by_pk(id: uuid!): article
+
+  """
+  fetch data from the table: "member"
+  """
+  member(
+    """distinct select on columns"""
+    distinct_on: [member_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [member_order_by!]
+
+    """filter the rows returned"""
+    where: member_bool_exp
+  ): [member!]!
+
+  """
+  fetch aggregated fields from the table: "member"
+  """
+  member_aggregate(
+    """distinct select on columns"""
+    distinct_on: [member_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [member_order_by!]
+
+    """filter the rows returned"""
+    where: member_bool_exp
+  ): member_aggregate!
+
+  """fetch data from the table: "member" using primary key columns"""
+  member_by_pk(id: uuid!): member
+}
+
+"""subscription root"""
+type subscription_root {
+  """
+  fetch data from the table: "article"
+  """
+  article(
+    """distinct select on columns"""
+    distinct_on: [article_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [article_order_by!]
+
+    """filter the rows returned"""
+    where: article_bool_exp
+  ): [article!]!
+
+  """
+  fetch aggregated fields from the table: "article"
+  """
+  article_aggregate(
+    """distinct select on columns"""
+    distinct_on: [article_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [article_order_by!]
+
+    """filter the rows returned"""
+    where: article_bool_exp
+  ): article_aggregate!
+
+  """fetch data from the table: "article" using primary key columns"""
+  article_by_pk(id: uuid!): article
+
+  """
+  fetch data from the table: "member"
+  """
+  member(
+    """distinct select on columns"""
+    distinct_on: [member_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [member_order_by!]
+
+    """filter the rows returned"""
+    where: member_bool_exp
+  ): [member!]!
+
+  """
+  fetch aggregated fields from the table: "member"
+  """
+  member_aggregate(
+    """distinct select on columns"""
+    distinct_on: [member_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [member_order_by!]
+
+    """filter the rows returned"""
+    where: member_bool_exp
+  ): member_aggregate!
+
+  """fetch data from the table: "member" using primary key columns"""
+  member_by_pk(id: uuid!): member
+}
+
+scalar timestamptz
+
+"""
+expression to compare columns of type timestamptz. All fields are combined with logical 'AND'.
+"""
+input timestamptz_comparison_exp {
+  _eq: timestamptz
+  _gt: timestamptz
+  _gte: timestamptz
+  _in: [timestamptz!]
+  _is_null: Boolean
+  _lt: timestamptz
+  _lte: timestamptz
+  _neq: timestamptz
+  _nin: [timestamptz!]
+}
+
+scalar uuid
+
+"""
+expression to compare columns of type uuid. All fields are combined with logical 'AND'.
+"""
+input uuid_comparison_exp {
+  _eq: uuid
+  _gt: uuid
+  _gte: uuid
+  _in: [uuid!]
+  _is_null: Boolean
+  _lt: uuid
+  _lte: uuid
+  _neq: uuid
+  _nin: [uuid!]
+}

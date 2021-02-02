@@ -1,0 +1,19 @@
+mutation UpsertMember(
+    $display_name: String,
+    $photo_url: String,
+    $email: String!,
+    $phone: String!,
+) {
+    insert_member_one(object: {
+        display_name: $display_name,
+        photo_url: $photo_url,
+        email: $email,
+        phone: $phone
+    },
+    on_conflict: {
+        constraint: member_email_phone_key,
+        update_columns: [display_name, photo_url]
+    }) {
+        ...MemberFields
+    }
+}
